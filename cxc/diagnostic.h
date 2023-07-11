@@ -21,7 +21,7 @@ namespace cxc
   {
     char const* file_path;
     span        span;
-  };
+  }; 
 }
 
 #endif

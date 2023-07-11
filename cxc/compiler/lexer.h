@@ -5,9 +5,10 @@
 
 #include <cxc/diagnostic.h>
 #include <cxc/syntax/token.h>
+#include <stdexcept>
 
 namespace cxc
-{
+{ 
   class lexer
   {
   public:
@@ -25,7 +26,7 @@ namespace cxc
     [[nodiscard]] position const& position()  const noexcept { return m_position; }
     [[nodiscard]] char            current() const noexcept { return *iterator(); }
  
-    void load(char const* file_path);
+    void load(std::string_view file_path);
     void next(token& out);
 
   private:
@@ -38,6 +39,34 @@ namespace cxc
 
     void advance() noexcept;
     char peek(std::ptrdiff_t offset) const noexcept;
+    void next_string(token&);
+    void next_number(token&);
+  };
+
+  class lexing_error
+    : public std::runtime_error
+  {
+  public:
+    using base = std::runtime_error;
+
+    enum type : std::size_t
+    {
+      unknown_token,
+      extra_dot_in_floating_token,
+      floating,
+      uinteger,
+    };
+
+    lexing_error(type type) noexcept
+      : base{*reinterpret_cast<char**>(&type)} {}
+
+    [[nodiscard]]
+    type type() const noexcept
+    {
+      return *reinterpret_cast<enum type*>(const_cast<char*>(base::what()));
+    }
+
+    [[nodiscard]] char const* what() const noexcept override;
   };
 }
 
