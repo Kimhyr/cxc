@@ -9,11 +9,10 @@ typedef struct {
     size_t capacity;
 } Buffer;
 
-void buffer(Buffer*, size_t capacity);
+void buffer(Buffer*);
 void push_buffer(Buffer*, char in);
-void destroy_buffer(Buffer*);
 void expand_buffer(Buffer*);
-void shrink_buffer();
+void shrink_buffer(Buffer*);
 
 #endif
 	

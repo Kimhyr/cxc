@@ -2,17 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "buffer.h"
 #include "lexer.h"
 #include "token.h"
 #include "utilities.h"
 
-static        char skip_whitespace(Lexer*);
+static        void skip_whitespace(Lexer*);
 static        bool is_whitespace(char);
-static        char next(Lexer*);
+static        void next(Lexer*);
 static inline char peek(Lexer*, char offset);
 static inline char current(Lexer*);
-static        char floating(Lexer*, Token*);
-static        char uinteger(Lexer*, Token*);
+static        void number(Lexer*, Token*);
+static        void uinteger(Lexer*, Token*);
 static inline void token(Token*, Position* restrict);
 
 void lexer(Lexer* l, const char* restrict fp)
@@ -24,13 +25,15 @@ void lexer(Lexer* l, const char* restrict fp)
 
 bool lex(Lexer* l, Token* t)
 {
-    char c = skip_whitespace(l);
+    skip_whitespace(l);
+    char c = current(l);
     token(t, &l->position);
     switch (c) {
     case PLUS:
     case MINUS:
         if (isdigit(peek(l, 1))) {
-            c = floating(l, t);
+            t->type = INTEGER;
+            number(l, t);
             break;
         }
     case COLON:
@@ -41,8 +44,10 @@ bool lex(Lexer* l, Token* t)
     case EOF:
         t->type = c;
         break;
-
     default:
+        if (isdigit(c)) {
+            
+        }
         break;
     }
     return false;
@@ -55,16 +60,16 @@ void token(Token* t, Position* position)
     t->location.span.end.column = 0;
 }
 
-char floating(Lexer* l, Token* t)
+void number(Lexer* l, Token* t)
 {
     Buffer b;
-    buffer(&b, 4);
+    buffer(&b);
 
     char c = current(l);
-    t->type = INTEGER;
     do {
-        push_buffer(&b, current(l));
-        c = next(l);
+        push_buffer(&b, c);
+        next(l);
+        c = current(l);
         if (c == '\0') {
             break;
         }
@@ -79,17 +84,16 @@ char floating(Lexer* l, Token* t)
             continue;
         }
     } while (isdigit(c));
-    
-    return c;
+    shrink_buffer(&b);
 }
 
-char skip_whitespace(Lexer* l)
+void skip_whitespace(Lexer* l)
 {
     char c = current(l);
     while (is_whitespace(c)) {
-        c = next(l);
+        next(l);
+        c = current(l);
     }
-    return c;
 }
 
 bool is_whitespace(char c)
@@ -97,7 +101,7 @@ bool is_whitespace(char c)
     return c == ' ' || (c >= '\t' && c <= '\r');
 }
 
-char next(Lexer* l)
+void next(Lexer* l)
 {
     char c = current(l);
     if (c == '\n') {
@@ -105,7 +109,6 @@ char next(Lexer* l)
         l->position.column = 0;
     }
     ++l->position.column;
-    return c;
 }
 
 char current(Lexer* l)

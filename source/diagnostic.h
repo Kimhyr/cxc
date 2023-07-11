@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "array.h"
+#include "buffer.h"
 
 typedef struct {
     size_t row;

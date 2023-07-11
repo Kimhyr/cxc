@@ -7,7 +7,7 @@
 #include "diagnostic.h"
 
 typedef enum : int8_t {
-    $ = INT8_MIN,
+    TOKEN_TYPE = INT8_MIN,
 
     // Specials
     IDENTIFIER, // [a-zA-Z_][0-9a-zA-Z_]*
@@ -43,9 +43,6 @@ typedef enum : int8_t {
     PLUS              = '+',
     MINUS             = '-',
     DOT               = '.',
-
-
-    _ = INT8_MAX,
 } TokenType;
 
 typedef union {
