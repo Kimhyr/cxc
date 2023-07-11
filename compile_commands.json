@@ -1,0 +1,11 @@
+[
+{
+  "directory": "/home/k/Projects/cxc",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-Weverything", "-O3", "-std=c++20", "-I.", "-Wno-c++98-compat", "-Wno-c++98-compat-pedantic", "-Wno-pre-c++20-compat", "-Wno-pre-c++20-compat-pedantic", "-Wno-c99-designator", "-Wno-unsafe-buffer-usage", "-stdlib=libstdc++", "-DNDEBUG", "-o", "build/.objs/cxc/linux/x86_64/release/cxc/compiler/lexer.cpp.o", "cxc/compiler/lexer.cpp"],
+  "file": "cxc/compiler/lexer.cpp"
+},
+{
+  "directory": "/home/k/Projects/cxc",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-Weverything", "-O3", "-std=c++20", "-I.", "-Wno-c++98-compat", "-Wno-c++98-compat-pedantic", "-Wno-pre-c++20-compat", "-Wno-pre-c++20-compat-pedantic", "-Wno-c99-designator", "-Wno-unsafe-buffer-usage", "-stdlib=libstdc++", "-DNDEBUG", "-o", "build/.objs/cxc/linux/x86_64/release/cxc/main.cpp.o", "cxc/main.cpp"],
+  "file": "cxc/main.cpp"
+}]
