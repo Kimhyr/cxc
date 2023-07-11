@@ -1,0 +1,62 @@
+{
+    errdata = "\27[1mbuild/.objs/cxc/linux/x86_64/release/source/__cpp_token.c.c:1:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    1 | # 1 \"source/token.c\"\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/token.c:1:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    1 | # 1 \"<built-in>\" 1\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/token.c:1:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    1 | # 1 \"source/token.h\" 1\27[0m\
+      | \27[0;1;32m    ^\
+\27[0mIn file included from source/token.c:1:\
+\27[1msource/token.h:4:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    4 | # 1 \"/usr/local/lib/clang/17/include/stddef.h\" 1 3\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/token.h:5:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    5 | # 1 \"/usr/local/lib/clang/17/include/stdint.h\" 1 3\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/token.h:7:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    7 | # 1 \"source/diagnostic.h\" 1\27[0m\
+      | \27[0;1;32m    ^\
+\27[0mIn file included from source/token.c:1:\
+In file included from source/token.h:7:\
+\27[1msource/diagnostic.h:4:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    4 | # 1 \"/usr/local/lib/clang/17/include/stddef.h\" 1 3\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/diagnostic.h:5:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    5 | # 1 \"/usr/include/stdio.h\" 1 3 4\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/diagnostic.h:7:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    7 | # 1 \"source/array.h\" 1\27[0m\
+      | \27[0;1;32m    ^\
+\27[0mIn file included from source/token.c:1:\
+In file included from source/token.h:7:\
+In file included from source/diagnostic.h:7:\
+\27[1msource/array.h:4:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    4 | # 1 \"/usr/local/lib/clang/17/include/stddef.h\" 1 3\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/array.h:16:19: \27[0m\27[0;1;35mwarning: \27[0m\27[1ma function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]\27[0m\
+   16 | void shrink_buffer();\27[0m\
+      | \27[0;1;32m                  ^\
+\27[0m      | \27[0;32m                   void\
+\27[0m\27[1msource/array.h:17:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+   17 | # 8 \"source/diagnostic.h\" 2\27[0m\
+      | \27[0;1;32m    ^\
+\27[0mIn file included from source/token.c:1:\
+In file included from source/token.h:7:\
+\27[1msource/diagnostic.h:37:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+   37 | # 8 \"source/token.h\" 2\27[0m\
+      | \27[0;1;32m    ^\
+\27[0mIn file included from source/token.c:1:\
+\27[1msource/token.h:9:14: \27[0m\27[0;1;35mwarning: \27[0m\27[1menumeration types with a fixed underlying type are a Clang extension [-Wfixed-enum-extension]\27[0m\
+    9 | typedef enum : int8_t {\27[0m\
+      | \27[0;1;32m             ^~~~~~~~\
+\27[0m\27[1msource/token.h:10:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1m'$' in identifier [-Wdollar-in-identifier-extension]\27[0m\
+   10 |     $ = (-128),\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/token.h:64:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+   64 | # 2 \"source/token.c\" 2\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m16 warnings generated.\
+"
+}

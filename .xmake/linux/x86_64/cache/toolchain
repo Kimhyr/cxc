@@ -1,0 +1,22 @@
+{
+    tool_target_cxc_linux_x86_64_cc = {
+        toolchain_info = {
+            plat = "linux",
+            name = "clang",
+            cachekey = "clang_arch_x86_64_plat_linux",
+            arch = "x86_64"
+        },
+        toolname = "clang",
+        program = "/usr/local/bin/clang"
+    },
+    tool_target_cxc_linux_x86_64_ld = {
+        toolchain_info = {
+            plat = "linux",
+            name = "clang",
+            cachekey = "clang_arch_x86_64_plat_linux",
+            arch = "x86_64"
+        },
+        toolname = "clangxx",
+        program = "/usr/local/bin/clang++"
+    }
+}

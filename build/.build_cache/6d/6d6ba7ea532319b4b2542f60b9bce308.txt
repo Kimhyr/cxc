@@ -1,0 +1,39 @@
+{
+    errdata = "\27[1mbuild/.objs/cxc/linux/x86_64/release/source/__cpp_main.c.c:1:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    1 | # 1 \"source/main.c\"\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/main.c:1:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    1 | # 1 \"<built-in>\" 1\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/main.c:1:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    1 | # 1 \"/usr/include/stdio.h\" 1 3 4\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/main.c:2:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    2 | # 1 \"source/token.h\" 1\27[0m\
+      | \27[0;1;32m    ^\
+\27[0mIn file included from source/main.c:2:\
+\27[1msource/token.h:4:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    4 | # 1 \"/usr/local/lib/clang/17/include/stddef.h\" 1 3\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/token.h:5:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+    5 | # 1 \"/usr/local/lib/clang/17/include/stdint.h\" 1 3\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/token.h:7:17: \27[0m\27[0;1;35mwarning: \27[0m\27[1menumeration types with a fixed underlying type are a Clang extension [-Wfixed-enum-extension]\27[0m\
+    7 | enum token_type : uint8_t {\27[0m\
+      | \27[0;1;32m                ^~~~~~~~~\
+\27[0m\27[1msource/token.h:51:1: \27[0m\27[0;1;35mwarning: \27[0m\27[1mempty struct has size 0 in C, size 1 in C++ [-Wc++-compat]\27[0m\
+   51 | struct token {\27[0m\
+      | \27[0;1;32m^\
+\27[0m\27[1msource/token.h:51:1: \27[0m\27[0;1;35mwarning: \27[0m\27[1mempty struct is a GNU extension [-Wgnu-empty-struct]\27[0m\
+\27[1msource/token.h:54:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mthis style of line directive is a GNU extension [-Wgnu-line-marker]\27[0m\
+   54 | # 3 \"source/main.c\" 2\27[0m\
+      | \27[0;1;32m    ^\
+\27[0m\27[1msource/main.c:4:14: \27[0m\27[0;1;35mwarning: \27[0m\27[1munused parameter 'argc' [-Wunused-parameter]\27[0m\
+    4 | int main(int argc, char **argv)\27[0m\
+      | \27[0;1;32m             ^\
+\27[0m\27[1msource/main.c:4:27: \27[0m\27[0;1;35mwarning: \27[0m\27[1munused parameter 'argv' [-Wunused-parameter]\27[0m\
+    4 | int main(int argc, char **argv)\27[0m\
+      | \27[0;1;32m                          ^\
+\27[0m12 warnings generated.\
+"
+}
