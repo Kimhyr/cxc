@@ -25,5 +25,21 @@ int main(int argc, char* argv[])
   l.load(path.c_str());
   l.next(t);
   std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
+  l.next(t);
+  std::cout << std::format("{}", t) << std::endl;
   return 0;
 }

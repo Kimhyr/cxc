@@ -19,6 +19,7 @@ namespace cxc
   {
     identifier = std::numeric_limits<std::int8_t>::min(),
     string,
+    character,
     uinteger,
     floating,
     function, 
@@ -53,7 +54,7 @@ namespace cxc
   {
     union {
       std::string_view identifier;
-      char             chararacter;
+      char             character;
       std::string_view string;
       std::uint64_t    uinteger;
       double           floating;
@@ -73,36 +74,37 @@ namespace std
     {
       std::string_view str;
       switch (i) {
-      case cxc::token_type::identifier:        str = STRINGIFY(identifier); break;
-      case cxc::token_type::string:            str = STRINGIFY(string); break;
-      case cxc::token_type::uinteger:          str = STRINGIFY(uinteger); break;
-      case cxc::token_type::floating:          str = STRINGIFY(floating); break;
-      case cxc::token_type::forward_arrow:     str = STRINGIFY(forward_arrow); break;
-      case cxc::token_type::function:          str = STRINGIFY(function); break;
-      case cxc::token_type::value:             str = STRINGIFY(value); break;
-      case cxc::token_type::u8:                str = STRINGIFY(u8); break;
-      case cxc::token_type::u16:               str = STRINGIFY(u16); break;
-      case cxc::token_type::u32:               str = STRINGIFY(u32); break;
-      case cxc::token_type::u64:               str = STRINGIFY(u64); break;
-      case cxc::token_type::i8:                str = STRINGIFY(i8); break;
-      case cxc::token_type::i16:               str = STRINGIFY(i16); break;
-      case cxc::token_type::i32:               str = STRINGIFY(i32); break;
-      case cxc::token_type::i64:               str = STRINGIFY(i64); break;
-      case cxc::token_type::f16:               str = STRINGIFY(f16); break;
-      case cxc::token_type::f32:               str = STRINGIFY(f32); break;
-      case cxc::token_type::f64:               str = STRINGIFY(f64); break;
-      case cxc::token_type::end:               str = STRINGIFY(end); break;
-      case cxc::token_type::period:            str = STRINGIFY(period); break;
-      case cxc::token_type::quote:             str = STRINGIFY(quote); break;
-      case cxc::token_type::minus:             str = STRINGIFY(minus); break;
-      case cxc::token_type::plus:              str = STRINGIFY(plus); break;
-      case cxc::token_type::colon:             str = STRINGIFY(colon); break;
-      case cxc::token_type::left_parenthesis:  str = STRINGIFY(left_parenthesis); break;
-      case cxc::token_type::right_parenthesis: str = STRINGIFY(right_parenthesis); break;
-      case cxc::token_type::left_angle:        str = STRINGIFY(left_angle); break;
-      case cxc::token_type::right_angle:       str = STRINGIFY(right_angle); break;
-      case cxc::token_type::comma:             str = STRINGIFY(comma); break;
-      case cxc::token_type::semicolon:         str = STRINGIFY(semicolon); break;
+      case cxc::token_type::identifier:        str = "identifier"; break;
+      case cxc::token_type::character:         str = "character"; break;
+      case cxc::token_type::string:            str = "string"; break;
+      case cxc::token_type::uinteger:          str = "uinteger"; break;
+      case cxc::token_type::floating:          str = "floating"; break;
+      case cxc::token_type::forward_arrow:     str = "forward_arrow"; break;
+      case cxc::token_type::function:          str = "function"; break;
+      case cxc::token_type::value:             str = "value"; break;
+      case cxc::token_type::u8:                str = "u8"; break;
+      case cxc::token_type::u16:               str = "u16"; break;
+      case cxc::token_type::u32:               str = "u32"; break;
+      case cxc::token_type::u64:               str = "u64"; break;
+      case cxc::token_type::i8:                str = "i8"; break;
+      case cxc::token_type::i16:               str = "i16"; break;
+      case cxc::token_type::i32:               str = "i32"; break;
+      case cxc::token_type::i64:               str = "i64"; break;
+      case cxc::token_type::f16:               str = "f16"; break;
+      case cxc::token_type::f32:               str = "f32"; break;
+      case cxc::token_type::f64:               str = "f64"; break;
+      case cxc::token_type::end:               str = "end"; break;
+      case cxc::token_type::period:            str = "period"; break;
+      case cxc::token_type::quote:             str = "quote"; break;
+      case cxc::token_type::minus:             str = "minus"; break;
+      case cxc::token_type::plus:              str = "plus"; break;
+      case cxc::token_type::colon:             str = "colon"; break;
+      case cxc::token_type::left_parenthesis:  str = "left_parenthesis"; break;
+      case cxc::token_type::right_parenthesis: str = "right_parenthesis"; break;
+      case cxc::token_type::left_angle:        str = "left_angle"; break;
+      case cxc::token_type::right_angle:       str = "right_angle"; break;
+      case cxc::token_type::comma:             str = "comma"; break;
+      case cxc::token_type::semicolon:         str = "semicolon"; break;
       }
       return std::formatter<string>::format(std::format("{}", str), ctx);
     }
@@ -122,6 +124,7 @@ IGNORE_DIAGNOSTIC(-Wswitch-enum)
 POP_DIAGNOSTIC
       case cxc::token_type::identifier:    value = std::format("{}"    , t.value.identifier); break;
       case cxc::token_type::string:        value = std::format("\"{}\"", t.value.string); break;
+      case cxc::token_type::character:     value = std::format("\'{}\'", t.value.character); break;
       case cxc::token_type::uinteger:      value = std::format("{}"    , t.value.uinteger); break;
       case cxc::token_type::floating:      value = std::format("{}"    , t.value.floating); break;
       case cxc::token_type::forward_arrow: value = "->"; break;

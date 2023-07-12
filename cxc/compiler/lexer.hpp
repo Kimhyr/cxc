@@ -2,10 +2,11 @@
 #define CXC_COMPILER_H
 
 #include <iterator>
+#include <stdexcept>
+#include <vector>
 
 #include <cxc/diagnostic.h>
 #include <cxc/syntax/token.h>
-#include <stdexcept>
 
 namespace cxc
 { 
@@ -37,10 +38,11 @@ namespace cxc
       .column = 1,
     };
 
-    void advance() noexcept;
+    void consume() noexcept;
     char peek(std::ptrdiff_t offset) const noexcept;
     void next_string(token&);
     void next_number(token&);
+    void match_escape_sequence(std::stringstream& buf);
   };
 
   class lexing_error
@@ -55,6 +57,7 @@ namespace cxc
       extra_dot_in_floating_token,
       floating,
       uinteger,
+      newline_in_string_token,
     };
 
     lexing_error(type type) noexcept

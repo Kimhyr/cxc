@@ -1,4 +1,4 @@
-#include "cxc/diagnostic.h"
+#include <cctype>
 #include <exception>
 #include <locale>
 #include <compare>
@@ -7,10 +7,10 @@
 #include <format>
 #include <fstream>
 #include <sstream>
-#include <vector>
 
 #include <cxc/compiler/lexer.h>
 #include <cxc/utility/macros.h>
+#include <cxc/diagnostic.h>
 
 namespace stdfs = std::filesystem;
 
@@ -39,7 +39,7 @@ namespace cxc
   void lexer::next(token& t)
   {
     while (std::isspace(current())) [[likely]] {
-      advance();
+      consume();
     }
     t = {
       .location = {
@@ -85,7 +85,7 @@ POP_DIAGNOSTIC
         std::vector<char> buf;
         do {
             buf.push_back(current());
-            advance();
+            consume();
         } while (std::isdigit(current())
               || std::isalpha(current())
               || current() == '_');
@@ -98,7 +98,7 @@ POP_DIAGNOSTIC
     }
   }
 
-  void lexer::advance() noexcept
+  void lexer::consume() noexcept
   {
     ++m_iterator;
     if (current() == '\n') {
@@ -115,7 +115,20 @@ POP_DIAGNOSTIC
 
   void lexer::next_string(token& t)
   {
-    throw;
+    std::stringstream buf;
+    do {
+      buf.put(current());
+      consume();
+      if (current() == '\\') {
+        consume();
+        match_escape_sequence(buf);
+        consume();
+        continue;
+      }
+      if (current() == '\n') {
+        throw lexing_error(lexing_error::newline_in_string_token);
+      }
+    } while (current() != '"');
   }
 
   void lexer::next_number(token& t)
@@ -123,12 +136,14 @@ POP_DIAGNOSTIC
     std::stringstream buf;
     do {
       buf.put(current());
-      advance();
+      consume();
       if (current() == '.') {
         if (t.type == token_type::floating) {
           throw lexing_error(lexing_error::extra_dot_in_floating_token);
         }
         t.type = token_type::floating;
+        buf.put(current());
+        consume();
         continue;
       }
     } while (std::isdigit(current()));
@@ -142,6 +157,33 @@ POP_DIAGNOSTIC
       if (buf.fail()) {
         throw lexing_error(lexing_error::uinteger);
       }
+    }
+  }
+
+  void lexer::match_escape_sequence(std::stringstream& buf)
+  {
+    std::uint64_t n;
+    switch (current()) {
+    case 'x':
+      consume();
+      while (std::isxdigit(current())) {
+        buf << current();
+      }
+      buf >> std::hex >> n;
+      break;
+    case '\'':
+    case '\"':
+    case '\\':
+      buf << current();
+      consume();
+      break;
+    case 'a':
+    case 'b':
+    case 'f':
+    case 'n':
+    case 'r':
+    case 't':
+    case 'v':
     }
   }
 
@@ -160,6 +202,9 @@ POP_DIAGNOSTIC
         break;
       case floating:
         m = "failed to make a floating token";
+        break;
+      case newline_in_string_token:
+        m = "new line in string token";
         break;
       }
       return m;
