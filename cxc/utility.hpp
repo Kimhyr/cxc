@@ -1,5 +1,5 @@
-#ifndef CXC_UTILITY_H
-#define CXC_UTILITY_H
+#ifndef CXC_UTILITY_HPP
+#define CXC_UTILITY_HPP
 
 #include <type_traits>
 

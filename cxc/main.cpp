@@ -12,7 +12,7 @@
 #include <format>
 #include <type_traits>
 
-#include <cxc/compiler/lexer.h>
+#include <cxc/compiler/lexer.hpp>
 
 int main(int argc, char* argv[])
 {
@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
   cxc::lexer l;
   cxc::token t {};
   l.load(path.c_str());
+
   l.next(t);
   std::cout << std::format("{}", t) << std::endl;
   l.next(t);
@@ -33,13 +34,9 @@ int main(int argc, char* argv[])
   std::cout << std::format("{}", t) << std::endl;
   l.next(t);
   std::cout << std::format("{}", t) << std::endl;
+  std::cout << t.value.string << std::endl;
   l.next(t);
   std::cout << std::format("{}", t) << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
+
   return 0;
 }

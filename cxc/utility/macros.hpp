@@ -1,5 +1,5 @@
-#ifndef CXC_MACROS_H
-#define CXC_MACROS_H
+#ifndef CXC_MACROS_HPP
+#define CXC_MACROS_HPP
 
 #define STRINGIFY(E) #E
 #define FUNCTION __PRETTY_FUNCTION__

@@ -1,5 +1,5 @@
-#ifndef CXC_DIAGNOSTIC_H
-#define CXC_DIAGNOSTIC_H
+#ifndef CXC_DIAGNOSTIC_HPP
+#define CXC_DIAGNOSTIC_HPP
 
 #include <cstdint>
 #include <format>

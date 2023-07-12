@@ -1,12 +1,12 @@
-#ifndef CXC_COMPILER_H
-#define CXC_COMPILER_H
+#ifndef CXC_COMPILER_HPP
+#define CXC_COMPILER_HPP
 
 #include <iterator>
 #include <stdexcept>
 #include <vector>
 
-#include <cxc/diagnostic.h>
-#include <cxc/syntax/token.h>
+#include <cxc/diagnostic.hpp>
+#include <cxc/syntax/token.hpp>
 
 namespace cxc
 { 
@@ -35,7 +35,7 @@ namespace cxc
     char const*     m_iterator{nullptr};
     struct position m_position{
       .row = 1,
-      .column = 1,
+      .column = 2, // this is 2 for a reason I can't explain
     };
 
     void consume() noexcept;
@@ -57,7 +57,10 @@ namespace cxc
       extra_dot_in_floating_token,
       floating,
       uinteger,
+      hex_escape_sequence,
+      digit_escape_sequence,
       newline_in_string_token,
+      unknown_escape_sequence,
     };
 
     lexing_error(type type) noexcept

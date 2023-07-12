@@ -1,16 +1,16 @@
-#ifndef CXC_TOKEN_H
-#define CXC_TOKEN_H
+#ifndef CXC_TOKEN_HPP
+#define CXC_TOKEN_HPP
 
 #include <cstdint>
 #include <limits>
 #include <format>
 #include <type_traits>
-
-#include <cxc/utility/macros.h>
-#include <cxc/utility/string.h>
-#include <cxc/utility.h>
-#include <cxc/diagnostic.h>
 #include <utility>
+
+#include <cxc/utility/macros.hpp>
+#include <cxc/utility/string.hpp>
+#include <cxc/utility.hpp>
+#include <cxc/diagnostic.hpp>
 
 namespace cxc
 {

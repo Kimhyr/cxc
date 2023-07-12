@@ -1,5 +1,5 @@
-#ifndef CXC_SRING_H
-#define CXC_SRING_H
+#ifndef CXC_SRING_HPP
+#define CXC_SRING_HPP
 
 #include <array>
 #include <limits>
@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <iostream>
 
-#include <cxc/utility/macros.h>
+#include <cxc/utility/macros.hpp>
 
 namespace cxc
 {
