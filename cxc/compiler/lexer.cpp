@@ -1,3 +1,4 @@
+#include "cxc/diagnostic.h"
 #include <exception>
 #include <locale>
 #include <compare>
@@ -9,15 +10,15 @@
 #include <vector>
 
 #include <cxc/compiler/lexer.h>
-#include <cxc/utilities/macros.h>
+#include <cxc/utility/macros.h>
 
 namespace stdfs = std::filesystem;
 
 namespace cxc
 {
-  void lexer::load(std::string_view file_path)
+  void lexer::load(char const* file_path)
   {
-    std::ifstream f(file_path.data());
+    std::ifstream f(file_path);
     if (f.fail()) {
       if (!stdfs::exists(file_path)) {
         throw std::invalid_argument(std::format("file path doesn't exist: {}", file_path));
@@ -31,7 +32,8 @@ namespace cxc
     ss << f.rdbuf();
     std::string&& str = ss.str();
     this->m_iterator = new char[str.size()];
-    std::copy(str.begin(), str.end(), const_cast<char*>(this->m_iterator));
+    std::copy(str.begin(), str.end(), const_cast<char*>(m_iterator));
+    m_file_path = file_path;
   }
 
   void lexer::next(token& t)
@@ -40,8 +42,10 @@ namespace cxc
       advance();
     }
     t = {
-      .location.file_path  = file_path(),
-      .location.span.start = position(),
+      .location = {
+        .file_path = file_path(),
+        .position  = position()
+      }
     };
     token_type ctt = static_cast<token_type>(current());
 PUSH_DIAGNOSTIC
@@ -86,14 +90,12 @@ POP_DIAGNOSTIC
               || std::isalpha(current())
               || current() == '_');
         buf.push_back('\0');
-        t.value.identifier = new char[buf.size()];
-        std::copy(buf.begin(), buf.end(), const_cast<char*>(t.value.identifier));
+        t.value.identifier = std::string_view{new char[buf.size()], buf.size()};
+        std::copy(buf.begin(), buf.end(), const_cast<char*>(t.value.identifier.begin()));
         break;
       }
       throw lexing_error(lexing_error::unknown_token);
     }
-    // I know that this would be +1 of the correct row and column
-    t.location.span.end = position();
   }
 
   void lexer::advance() noexcept

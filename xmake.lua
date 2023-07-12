@@ -7,8 +7,10 @@ set_languages('c++20')
 add_cxxflags(
 	'-Wno-c++98-compat',
 	'-Wno-c++98-compat-pedantic',
+	'-Wno-c++20-compat',
 	'-Wno-pre-c++20-compat',
 	'-Wno-pre-c++20-compat-pedantic',
+	'-Wno-c++23-extensions',
 	'-Wno-c99-designator',
 	'-Wno-unsafe-buffer-usage',
 	'-stdlib=libstdc++'

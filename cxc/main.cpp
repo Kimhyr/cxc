@@ -10,20 +10,20 @@
 #include <stdexcept>
 #include <iostream>
 #include <format>
+#include <type_traits>
 
 #include <cxc/compiler/lexer.h>
-
-using namespace cxc;
 
 int main(int argc, char* argv[])
 {
   (void)argc, (void)argv;
- 
-  lexer l;
-  token t;
-  char const* root = "/home/k/Projects/cxc";
-  l.load(std::format("{}/tests/main.cx", root).c_str());
+  static constexpr char root[] = "/home/k/Projects/cxc";
+  std::string path = std::format("{}/tests/main.cx", root);
+  
+  cxc::lexer l;
+  cxc::token t {};
+  l.load(path.c_str());
   l.next(t);
-
+  std::cout << std::format("{}", t) << std::endl;
   return 0;
 }

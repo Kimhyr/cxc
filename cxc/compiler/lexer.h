@@ -26,15 +26,15 @@ namespace cxc
     [[nodiscard]] position const& position()  const noexcept { return m_position; }
     [[nodiscard]] char            current() const noexcept { return *iterator(); }
  
-    void load(std::string_view file_path);
+    void load(char const* file_path);
     void next(token& out);
 
   private:
     char const*     m_file_path{nullptr};
     char const*     m_iterator{nullptr};
     struct position m_position{
-      .row = 0,
-      .column = 0,
+      .row = 1,
+      .column = 1,
     };
 
     void advance() noexcept;

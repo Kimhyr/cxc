@@ -1,8 +1,8 @@
 #ifndef CXC_MACROS_H
 #define CXC_MACROS_H
 
-#define STRING(E) #E
-
+#define STRINGIFY(E) #E
+#define FUNCTION __PRETTY_FUNCTION__
 #define PRAGMA(P) _Pragma(#P)
 #define PUSH_DIAGNOSTIC      PRAGMA(GCC diagnostic push)
 #define POP_DIAGNOSTIC       PRAGMA(GCC diagnostic pop)
