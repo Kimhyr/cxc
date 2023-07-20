@@ -1,5 +1,5 @@
 #ifndef __clang__
-#  error use Clang as the compiler
+#    error use Clang as the compiler
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -12,31 +12,31 @@
 #include <format>
 #include <type_traits>
 
-#include <cxc/compiler/lexer.hpp>
+#include <cxc/compiler/lexer.h>
 
 int main(int argc, char* argv[])
 {
-  (void)argc, (void)argv;
-  static constexpr char root[] = "/home/k/Projects/cxc";
-  std::string path = std::format("{}/tests/main.cx", root);
-  
-  cxc::lexer l;
-  cxc::token t {};
-  l.load(path.c_str());
+    (void)argc, (void)argv;
+    static constexpr char root[] = "/home/k/Projects/cxc";
+    std::string path = std::format("{}/tests/main.cx", root);
+    
+    cxc::Lexer l;
+    cxc::Token t {};
+    l.load(path.c_str());
 
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
-  std::cout << t.value.string << std::endl;
-  l.next(t);
-  std::cout << std::format("{}", t) << std::endl;
+    l.next(t);
+    std::cout << std::format("{}", t) << std::endl;
+    l.next(t);
+    std::cout << std::format("{}", t) << std::endl;
+    l.next(t);
+    std::cout << std::format("{}", t) << std::endl;
+    l.next(t);
+    std::cout << std::format("{}", t) << std::endl;
+    l.next(t);
+    std::cout << std::format("{}", t) << std::endl;
+    std::cout << t.value.string << std::endl;
+    l.next(t);
+    std::cout << std::format("{}", t) << std::endl;
 
-  return 0;
+    return 0;
 }
