@@ -13,7 +13,7 @@ namespace cxc
     namespace detail
     {
         template<std::size_t N, std::size_t I, typename... Xs>
-        static constexpr std::array<char, N - 1> stringify(const char x[N], Xs... xs)
+        static constexpr auto stringify(const char x[N], Xs... xs) -> std::array<char, N - 1>
         {
             if constexpr(I == N - 2) {
                 return {xs..., '\0'};
@@ -24,9 +24,10 @@ namespace cxc
     }
 
     template<auto _, std::size_t Start = 0>
-    constexpr std::string_view stringify()
+    constexpr auto stringify() -> std::string_view
     {
         constexpr auto p = sizeof("std::string_view cxc::stringify() [_ = ") + Start;
+        // FIXME: I'm pretty sure this is a bug
         static constexpr auto r = detail::stringify<sizeof(FUNCTION), p - 1>(FUNCTION);
         return {r.begin(), r.size()};
     }

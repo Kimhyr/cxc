@@ -14,10 +14,11 @@
 
 #include <cxc/compiler/lexer.h>
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
     (void)argc, (void)argv;
-    static constexpr char root[] = "/home/k/Projects/cxc";
+
+    static constexpr char root[] = "/home/k/projects/cxc";
     std::string path = std::format("{}/tests/main.cx", root);
     
     cxc::Lexer l;
@@ -34,9 +35,11 @@ int main(int argc, char* argv[])
     std::cout << std::format("{}", t) << std::endl;
     l.next(t);
     std::cout << std::format("{}", t) << std::endl;
-    std::cout << t.value.string << std::endl;
-    l.next(t);
-    std::cout << std::format("{}", t) << std::endl;
-
+    try {
+        l.next(t);
+        std::cout << std::format("{}", t) << std::endl;
+    } catch (cxc::LexingError const& e) {
+        std::cout << e.what() << std::endl;
+    }
     return 0;
 }

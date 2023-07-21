@@ -16,7 +16,7 @@ namespace stdfs = std::filesystem;
 
 namespace cxc
 {
-    void Lexer::load(stdfs::path const& path)
+    auto Lexer::load(stdfs::path const& path) -> void
     {
         if (!stdfs::exists(path)) {
             throw std::invalid_argument(std::format(
@@ -28,20 +28,19 @@ namespace cxc
                 "file path doesn't lead to a regular file: {}", path.string()));
         }
 
-        std::ifstream f{path};
-        if (f.fail()) {
+        file().stream.open(path);
+        if (file().stream.fail()) {
             throw std::runtime_error(std::format(
                 "an unknown failure happend from trying to open the file: {}", path.string()));
         }
 
-        m_file_path = path;
+        if (file().stream.eof()) {
+            throw LexingError(LexingError::END_OF_FILE);
+        }
 
-        std::stringstream ss;
-        ss << f.rdbuf();
-        auto const& str{ss.str()};
-        m_iterator = new char[str.size() + 1];
-        const_cast<char&>(m_iterator[str.size()]) = '\0';
-        std::copy(str.begin(), str.end(), const_cast<char*>(m_iterator));
+        m_current = file().stream.get();
+
+        file_path() = path;
         return;
     }
 
@@ -72,12 +71,17 @@ namespace cxc
             next_string(t);
             break;
         case TokenType::Period:
-            if (std::isdigit(peek(1))) {
+            if (std::isdigit(peek())) {
                 t.type = TokenType::Floating;
                 next_number(t);
                 break;
             }
             [[fallthrough]];
+        case TokenType::Apostrpohe:
+            consume();
+            t.type = TokenType::Character;
+            next_character(t);
+            break;
         case TokenType::Plus:
         case TokenType::Minus:
         case TokenType::Colon:
@@ -115,7 +119,7 @@ namespace cxc
                 break;
             }
 
-            if (current() == '\0') {
+            if (file().stream.eof()) {
                 throw LexingError(LexingError::END_OF_FILE);
             }
 
@@ -123,32 +127,36 @@ namespace cxc
         }
     }
 
-    void Lexer::consume() noexcept
+    auto Lexer::consume() -> void
     {
-        ++m_iterator;
-        if (current() == '\n') {
-            ++m_position.row;
-            m_position.column = 0;
+        if (file().stream.eof()) {
+            throw LexingError(LexingError::END_OF_FILE);
         }
-        ++m_position.column;
+
+        m_current = file().stream.get();
+        if (current() == '\n') {
+            ++position().row;
+            position().column = 0;
+        }
+        ++position().column;
     }
 
-    char Lexer::peek(std::ptrdiff_t offset) const noexcept
+    auto Lexer::peek() const noexcept -> int
     {
-        return iterator()[offset];
+        return const_cast<This*>(this)->file().stream.peek();
     }
 
-    void Lexer::next_string(Token& t)
+    auto Lexer::next_string(Token& t) -> void
     {
         std::stringstream buf;
         do {
-            if (current() == '\\') {
-                consume();
-                match_escape_sequence(buf);
-            } else {
+            //if (current() == '\\') {
+            //    consume();
+            //    match_escape_sequence(buf);
+            //} else {
                 buf.put(current());
                 consume();
-            }
+            //}
 
             if (current() == '\n') {
                 throw LexingError(LexingError::NEWLINE_IN_STRING_TOKEN);
@@ -164,7 +172,19 @@ namespace cxc
         std::copy(view.begin(), view.end(), const_cast<char*>(t.value.string.data()));
     }
 
-    void Lexer::match_escape_sequence(std::stringstream& buf)
+    auto Lexer::next_character(Token& t) -> void
+    {
+        if (peek() != '\'') {
+            throw LexingError(LexingError::DELIMITERLESS_CHARACTER_TOKEN);
+        }
+
+        t.value.character = current();
+        consume(); // skip the character
+        consume(); // skip the delimiter
+    }
+
+    [[deprecated("Moving this functionality into the code generator.")]]
+    auto Lexer::match_escape_sequence(std::stringstream& buf) -> void
     {
         std::stringstream buf2;
         std::uint64_t n;
@@ -225,7 +245,7 @@ namespace cxc
         consume();
     }
 
-    void Lexer::next_number(Token& t)
+    auto Lexer::next_number(Token& t) -> void
     {
         std::stringstream buf;
         do {
@@ -256,35 +276,9 @@ namespace cxc
         }
     }
 
-    char const* LexingError::what() const noexcept
+    [[nodiscard]]
+    auto LexingError::what() const noexcept -> char const*
     {
-            char const* m;
-            switch (type()) {
-            case UNKNOWN_TOKEN:
-                m = "unknown token";
-                break;
-            case EXTRA_DOT_IN_FLOATING_TOKEN:
-                m = "extra dot in floating token";
-                break;
-            case UINTEGER:
-                m = "failed to make a uinteger token";
-                break;
-            case FLOATING:
-                m = "failed to make a floating token";
-                break;
-            case NEWLINE_IN_STRING_TOKEN:
-                m = "new line in string token";
-                break;
-            case HEX_ESCAPE_SEQUENCE:
-                m = "failed to parse a hexadecimal escape sequence in a string token";
-                break;
-            case DIGIT_ESCAPE_SEQUENCE:
-                m = "failed to parse a digital escape sequence in a string token";
-                break;
-            case UNKNOWN_ESCAPE_SEQUENCE:
-                m = "unknown escape sequence";
-                break;
-            }
-            return m;
+        return Base::what();
     }
 }

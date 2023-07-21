@@ -16,8 +16,7 @@ namespace cxc
     enum class TokenType
         : std::int8_t
     {
-        _ = std::numeric_limits<std::int8_t>::min(),
-        Identifier,
+        Identifier = std::numeric_limits<std::int8_t>::min(),
         String,
         Character,
         UInteger,
@@ -38,6 +37,7 @@ namespace cxc
         ForwardArrow,
         Period           = '.',
         Quote            = '"',
+        Apostrpohe       = '\'',
         Minus            = '-',
         Plus             = '+',
         Colon            = ':',
@@ -133,7 +133,8 @@ namespace std
                     value = std::format("{}", t.type);
                 }
             }
-            auto format = std::format("token {{ type = {}, value = {}, location = {} }}", t.type, value, t.location);
+            auto format = std::format(
+                "token {{ type = {}, value = {}, location = {} }}", t.type, value, t.location);
             return formatter<string>::format(format, ctx);
         }
     };
