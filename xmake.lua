@@ -5,6 +5,7 @@ set_toolchains('clang')
 set_languages('c++20')
 
 add_cxxflags(
+	'-Wno-switch-enum',
 	'-Wno-c++98-compat',
 	'-Wno-c++98-compat-pedantic',
 	'-Wno-c++20-compat',

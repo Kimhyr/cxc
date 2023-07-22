@@ -24,21 +24,19 @@ public:
     auto operator=(This const&) -> This& = delete;
     auto operator=(This&&) -> This& = delete;
 
-    ~Parser();
+    ~Parser() = default;
 
     [[nodiscard]] auto lexer() const noexcept -> Lexer const& { return m_lexer; }
+    [[nodiscard]] auto token() const noexcept -> Token const& { return m_token; }
 
     auto load(stdfs::path const& file) -> void;
-    auto next() -> SyntaxTree const&;
+    auto next(Syntax&) -> void;
 
 private:
     Lexer m_lexer;
+    Token m_token;
 
-    auto parse(Syntax&) -> Syntax&;
-    auto parse_value_declaration() -> ValueDeclaration&;
-    auto parse_assignment() -> Assignment&;
-    auto parse_identifier(Identifier&) -> void;
-    auto parse_type(Type&) -> void;
+    auto lex() -> void { m_lexer.next(m_token); }
 };
 
 class ParsingError
@@ -50,6 +48,7 @@ public:
 
     static constexpr auto INVALID_TOKEN         = "invalid token";
     static constexpr auto INCOMPLETE_ASSIGNMENT = "incomplete assignment";
+    static constexpr auto ILLFORMED             = "illformed";
 
     ParsingError(char const* s)
         : Base{s} {}

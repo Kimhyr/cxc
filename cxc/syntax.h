@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <stdexcept>
 #include <string_view>
 
 #include <cxc/syntax/token.h>
@@ -8,14 +9,14 @@
 namespace cxc
 {
 
-struct ValueDeclaration;
-struct Assignment;
+struct Value;
+struct      Assignment;
 
 enum class SyntaxType
     : std::uint8_t
 {
     None,
-    ValueDeclaration,
+    Value,
     Primitive,
     Literal,
     Assignment,
@@ -30,19 +31,40 @@ class Syntax
 public:
     using This  = Syntax;
 
+    union Value {
+        cxc::Value* value;
+        Assignment* assignment;
+    };
+
     Syntax() = default;
+
+    Syntax(This& prior)
+        : m_prior{&prior} {}
 
     Syntax(SyntaxType type)
         : m_type{type} {}
+
+    [[nodiscard]] auto prior() const noexcept -> This const& { return *m_prior; }
+    [[nodiscard]] auto next() const noexcept -> This const& { return *m_next; }
+    [[nodiscard]] auto type() const noexcept -> SyntaxType { return m_type; }
+    [[nodiscard]] auto value() const noexcept -> Value { return m_value; } 
+
+    [[nodiscard]]
+    auto is_expression() const noexcept -> bool
+    {
+        switch (type()) {
+        case SyntaxType::Assignment:
+        case SyntaxType::Literal:
+            return true;
+        default: return false;
+        }
+    }
     
 private:
     This*      m_prior{nullptr};
     This*      m_next{nullptr};
-    union {
-        ValueDeclaration* value_declaration;
-        Assignment*       assignment;
-    }          m_value;
-    SyntaxType m_type;
+    Value      m_value{};
+    SyntaxType m_type{SyntaxType::None};
 };
 
 struct Identifier
@@ -68,16 +90,14 @@ struct Type
     } value;
 };
 
-struct ValueDeclaration
-{
+struct Value
+{     
     Identifier identifier; 
     Type       type;
 };
 
 struct Assignment
 {
-    Expression* prior;
-    Expression* next;
 };
 
 }

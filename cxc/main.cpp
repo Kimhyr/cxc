@@ -13,33 +13,20 @@
 #include <type_traits>
 
 #include <cxc/compiler/lexer.h>
+#include <cxc/compiler/parser.h>
 
 auto main(int argc, char* argv[]) -> int
 {
+    using namespace cxc;
     (void)argc, (void)argv;
 
-    static constexpr char root[] = "/home/k/projects/cxc";
-    std::string path = std::format("{}/tests/main.cx", root);
-    
-    cxc::Lexer l;
-    cxc::Token t {};
-    l.load(path.c_str());
+    static constexpr char root[]{"/home/k/projects/cxc"};
+    stdfs::path path{std::format("{}/tests/value.cx", root)};
 
-    l.next(t);
-    std::cout << std::format("{}", t) << std::endl;
-    l.next(t);
-    std::cout << std::format("{}", t) << std::endl;
-    l.next(t);
-    std::cout << std::format("{}", t) << std::endl;
-    l.next(t);
-    std::cout << std::format("{}", t) << std::endl;
-    l.next(t);
-    std::cout << std::format("{}", t) << std::endl;
-    try {
-        l.next(t);
-        std::cout << std::format("{}", t) << std::endl;
-    } catch (cxc::LexingError const& e) {
-        std::cout << e.what() << std::endl;
-    }
+    Parser parser{};
+    parser.load(path);
+    Syntax o;
+    parser.next(o);
+    std::cout << o.value().value->identifier.value << std::endl;
     return 0;
 }

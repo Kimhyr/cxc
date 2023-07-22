@@ -34,13 +34,42 @@ return-type:
 	'->' type
 
 function-declaration:
-	'function' identifier tagged-tuple return-type
+	identifier tagged-tuple return-type
 
 value-declaration:
-	'value' identifier cast
+	identifier cast
 
 statement:
 	function-declaration
 	value-declaration
 	expression
 	statement ';'
+
+structure Baz {
+	row: usize,
+	column: usize
+}
+
+function foo(bar: Baz) -> Baz {
+	return bar;
+}
+
+function create(row: usize, column: usize)
+	-> structure Baz {
+		row: usize,
+		column: usize
+	}
+{
+	return Baz {
+		.row = row,
+		.column = column
+	};
+}
+
+value bar: structure Baz {
+	row: usize,
+	column: usize
+} = Baz {
+	.row = 32,
+	.column = 21
+};

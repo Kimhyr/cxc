@@ -59,7 +59,7 @@ struct Token
         std::string_view string;
         std::uint64_t    uinteger;
         double           floating;
-    }         value;
+    }         value {};
     Location  location;
     TokenType type;
 };
@@ -120,10 +120,7 @@ struct std::formatter<cxc::Token>
     auto format(cxc::Token const& t, Ctx& ctx) const
     {
         string value;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wswitch-enum"
         switch (t.type) {
-#pragma GCC diagnostic pop
         case cxc::TokenType::Identifier:   value = std::format("{}"    , t.value.identifier); break;
         case cxc::TokenType::String:       value = std::format("\"{}\"", t.value.string); break;
         case cxc::TokenType::Character:    value = std::format("\'{}\'", t.value.character); break;

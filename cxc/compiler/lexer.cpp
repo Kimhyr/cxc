@@ -62,10 +62,7 @@ void Lexer::next(Token& t)
     };
 
     auto ctt = static_cast<TokenType>(current());
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wswitch-enum"
     switch (ctt) {
-#pragma GCC diagnostic pop
     case TokenType::Quote:
         consume();
         t.type = TokenType::String;
@@ -92,6 +89,7 @@ void Lexer::next(Token& t)
     case TokenType::RightAngle:
     case TokenType::Comma:
     case TokenType::Semicolon:
+        consume();
         t.type = static_cast<TokenType>(ctt);
         break;
     default:
@@ -103,16 +101,54 @@ void Lexer::next(Token& t)
 
         if (std::isalpha(current()) || current() == '_') {
             t.type = TokenType::Identifier;
-
             std::vector<char> buf;
             do {
                 buf.push_back(current());
                 consume();
-            } while (std::isdigit(current())
-                  || std::isalpha(current())
-                  || current() == '_');
+            } while (std::isalpha(current()) || current() == '_' || std::isdigit(current()));
 
-            // We then relocate the buffer to a fitting area.
+            std::string_view view{buf.data(), buf.size()};
+            if (std::string_view{"value"} == view) {
+                t.type = TokenType::Value;
+                return;
+            } else if (std::string_view{"function"} == view) {
+                t.type = TokenType::Function;
+                return;
+            } else if (std::string_view{"u8"} == view) {
+                t.type = TokenType::U8;
+               return;
+            } else if (std::string_view{"u16"} == view) {
+                t.type = TokenType::U16;
+               return;
+            } else if (std::string_view{"u32"} == view) {
+                t.type = TokenType::U32;
+               return;
+            } else if (std::string_view{"u64"} == view) {
+                t.type = TokenType::U64;
+               return;
+            } else if (std::string_view{"i8"} == view) {
+                t.type = TokenType::I8;
+               return;
+            } else if (std::string_view{"i16"} == view) {
+                t.type = TokenType::I16;
+               return;
+            } else if (std::string_view{"i32"} == view) {
+                t.type = TokenType::I32;
+               return;
+            } else if (std::string_view{"i64"} == view) {
+                t.type = TokenType::I64;
+                return;
+            } else if (std::string_view{"f16"} == view) {
+                t.type = TokenType::F16;
+                return;
+            } else if (std::string_view{"f32"} == view) {
+                t.type = TokenType::F32;
+                return;
+            } else if (std::string_view{"f64"} == view) {
+                t.type = TokenType::F64;
+                return;
+            }
+
             auto size = buf.size() + 1;
             t.value.identifier = std::string_view{new char[size], size};
             const_cast<char&>(t.value.identifier[buf.size()]) = '\0';
