@@ -17,12 +17,12 @@ value baz: i32 {
 value baz: i32;
 if bar == 32 {
     baz = 21;
-else {
+} else {
     baz = 6;
 } 
 
 # function
-func create(row: u64, column: u64)
+function create(row: u64, column: u64)
     -> type Position = (
         row: u64,
         column: u64)
@@ -50,4 +50,3 @@ type Enum = monday | tuesday;
 type Enum2 = tuple: Tuple2 | array: Array2 | union: Union2; # algebraic enum
 
 ```
-

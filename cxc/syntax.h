@@ -10,7 +10,7 @@ namespace cxc
 {
 
 struct Value;
-struct      Assignment;
+struct Assignment;
 
 enum class SyntaxType
     : std::uint8_t
@@ -74,14 +74,6 @@ struct Identifier
 
 using Primitive = TokenType;
 
-struct Expression
-{
-    union {
-        
-    }         value;
-    SyntaxType type;
-};
-
 struct Type
 {
     SyntaxType type;
@@ -90,10 +82,16 @@ struct Type
     } value;
 };
 
+struct Initializer
+{
+    Syntax* expression{nullptr};
+};
+
 struct Value
 {     
-    Identifier identifier; 
-    Type       type;
+    Identifier  identifier; 
+    Type        type;
+    Initializer initializer;
 };
 
 struct Assignment

@@ -44,6 +44,8 @@ enum class TokenType
     Colon            = ':',
     LeftParenthesis  = '(',
     RightParenthesis = ')',
+    LeftCurl         = '{',
+    RightCurl        = '}',
     LeftAngle        = '<',
     RightAngle       = '>',
     Comma            = ',',

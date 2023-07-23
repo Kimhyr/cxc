@@ -85,6 +85,8 @@ void Lexer::next(Token& t)
     case TokenType::Colon:
     case TokenType::LeftParenthesis:
     case TokenType::RightParenthesis:
+    case TokenType::LeftCurl:
+    case TokenType::RightCurl:
     case TokenType::LeftAngle:
     case TokenType::RightAngle:
     case TokenType::Comma:

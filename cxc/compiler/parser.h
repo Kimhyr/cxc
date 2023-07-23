@@ -36,7 +36,12 @@ private:
     Lexer m_lexer;
     Token m_token;
 
-    auto lex() -> void { m_lexer.next(m_token); }
+    auto consume() -> void { m_lexer.next(m_token); }
+    auto next_value(Value&) -> void;
+    auto next_identifier(Identifier&) -> void;
+    auto next_type(Type&) -> void;
+    auto next_initializer(Initializer&) -> void;
+    auto next_expression(Syntax&) -> void;
 };
 
 class ParsingError
@@ -46,14 +51,12 @@ public:
     using This = ParsingError;
     using Base = std::runtime_error;
 
-    static constexpr auto INVALID_TOKEN         = "invalid token";
-    static constexpr auto INCOMPLETE_ASSIGNMENT = "incomplete assignment";
-    static constexpr auto ILLFORMED             = "illformed";
-
-    ParsingError(char const* s)
-        : Base{s} {}
+    ParsingError()
+        : Base{"parsing error"} {}
 
     [[nodiscard]] auto what() const noexcept -> char const* override;
 };
+
+struct Failure {};
 
 }
