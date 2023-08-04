@@ -30,17 +30,17 @@ cast:
 tagged-tuple:
 	'(' identifier cast (',' identifier cast )* ')'
 
-return-type:
-	'->' type
+function-type:
+	tagged-tuple '->' type
 
-function-declaration:
-	identifier tagged-tuple return-type
+procedure-declaration:
+	identifier function-type
 
 value-declaration:
 	identifier cast
 
 statement:
-	function-declaration
+	procedure-declaration
 	value-declaration
 	expression
 	statement ';'
@@ -50,26 +50,31 @@ structure Baz {
 	column: usize
 }
 
-function foo(bar: Baz) -> Baz {
+procedure foo(bar: Baz) -> Baz {
 	return bar;
 }
 
-function create(row: usize, column: usize)
-	-> structure Baz {
-		row: usize,
-		column: usize
-	}
+procedure create(row: uint, column: uint)
+	-> type Baz = (
+		row: uint,
+		column: uint
+	)
 {
-	return Baz {
+	return Baz(
 		.row = row,
 		.column = column
-	};
+	);
 }
 
-value bar: structure Baz {
-	row: usize,
-	column: usize
-} = Baz {
-	.row = 32,
-	.column = 21
-};
+procedure fib(n: uint) -> uint
+{
+	if n == 1 || n == 2 {
+		return n;
+	}
+	return fib(n - 1) + fib(n - 2);
+}
+
+value fib: (n: uint) -> uint {
+	(n == 1 || n == 2) => n,
+		fib(n - 1) + fib(n - 2)
+}

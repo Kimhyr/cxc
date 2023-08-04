@@ -10,7 +10,7 @@ value foo: i32;
 value bar: i32 {32}
 value baz: i32 {
     # only expressions allowed in this block
-    bar == 32 => 21 =: 6
+    bar == 32 => 21, 6
 }
 
 # the declaration of `baz` is equavalent to:
@@ -21,21 +21,49 @@ if bar == 32 {
     baz = 6;
 } 
 
-# function
-function create(row: u64, column: u64)
+# procedure
+procedure create(row: u64, column: u64)
     -> type Position = (
         row: u64,
         column: u64)
 {
     return Position {
-        .row {row}
-        .column {column}
+        row {row}
+        column {column}
     };
+}
+
+procedure fib(n: u64) -> u64
+{
+    if n == 0 || n == 1 {
+        return n;
+    }
+    return fib(n - 1) + fib(n - 2);
+}
+
+# function
+value fib: (n: u64) -> u64
+{
+    (n == 0 || n == 1) => n,
+        fib(n - 1) + fib(n - 2)
+}
+
+value x: u64 {fib(4)}
+
+value func: [x]() -> ()
+{
+    do_something_with(x)
+}
+
+procedure proc[x]() -> ()
+{
+    do_something_with(x)
 }
 
 # tuple
 type Tuple  = u64;
 type Tuple2 = foo: u64, bar: u8; # tagged-tuple
+type Tuple3 = ();
 
 # array
 type Array  = 4 * u8;
