@@ -17,7 +17,7 @@ add_cxxflags(
 	'-stdlib=libstdc++'
 )
 
-add_includedirs('.')
+add_includedirs('source')
 
 if is_mode('debug') then
 	set_symbols('debug')
@@ -28,4 +28,4 @@ end
 
 target('cxc')
 	set_kind('binary')
-	add_files('cxc/**.cpp')
+	add_files('source/**.cpp')

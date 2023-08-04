@@ -79,8 +79,6 @@ public:
 
     LexingError(char const* m) noexcept
         : Base{m} {}
-
-    [[nodiscard]] auto what() const noexcept -> char const* override;
 };
 
 }

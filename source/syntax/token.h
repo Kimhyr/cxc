@@ -20,6 +20,7 @@ enum class TokenType
     Identifier = std::numeric_limits<std::int8_t>::min(),
     String,
     Character,
+    Integer,
     UInteger,
     Floating,
     Function, 
@@ -55,13 +56,17 @@ enum class TokenType
 
 struct Token
 {
-    union {
+    union Value
+    {
         std::string_view identifier;
         char             character;
         std::string_view string;
+        std::int64_t     integer;
         std::uint64_t    uinteger;
         double           floating;
-    }         value {};
+    };
+
+    Value     value{};
     Location  location;
     TokenType type;
 };
@@ -82,6 +87,7 @@ struct std::formatter<cxc::TokenType>
         case cxc::TokenType::Identifier:       str = "identifier"; break;
         case cxc::TokenType::Character:        str = "character"; break;
         case cxc::TokenType::String:           str = "string"; break;
+        case cxc::TokenType::Integer:          str = "integer"; break;
         case cxc::TokenType::UInteger:         str = "uinteger"; break;
         case cxc::TokenType::Floating:         str = "floating"; break;
         case cxc::TokenType::ForwardArrow:     str = "forward_arrow"; break;
@@ -126,6 +132,7 @@ struct std::formatter<cxc::Token>
         case cxc::TokenType::Identifier:   value = std::format("{}"    , t.value.identifier); break;
         case cxc::TokenType::String:       value = std::format("\"{}\"", t.value.string); break;
         case cxc::TokenType::Character:    value = std::format("\'{}\'", t.value.character); break;
+        case cxc::TokenType::Integer:      value = std::format("{}"    , t.value.integer); break;
         case cxc::TokenType::UInteger:     value = std::format("{}"    , t.value.uinteger); break;
         case cxc::TokenType::Floating:     value = std::format("{}"    , t.value.floating); break;
         case cxc::TokenType::ForwardArrow: value = "->"; break;

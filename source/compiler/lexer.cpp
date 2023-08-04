@@ -82,6 +82,7 @@ void Lexer::next(Token& t)
         break;
     case TokenType::Plus:
     case TokenType::Minus:
+        // TODO: integer types
     case TokenType::Colon:
     case TokenType::LeftParenthesis:
     case TokenType::RightParenthesis:
@@ -313,12 +314,6 @@ auto Lexer::next_number(Token& t) -> void
             throw LexingError(LexingError::UINTEGER);
         }
     }
-}
-
-[[nodiscard]]
-auto LexingError::what() const noexcept -> char const*
-{
-    return Base::what();
 }
 
 }

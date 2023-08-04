@@ -28,8 +28,8 @@ function create(row: u64, column: u64)
         column: u64)
 {
     return Position {
-        .row = row,
-        .column = column
+        .row {row}
+        .column {column}
     };
 }
 
