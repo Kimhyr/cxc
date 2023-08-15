@@ -13,7 +13,6 @@
 #include <type_traits>
 
 #include <cxc/compiler/lexer.h>
-#include <cxc/compiler/parser.h>
 
 auto main(int argc, char* argv[]) -> int
 {
@@ -22,11 +21,6 @@ auto main(int argc, char* argv[]) -> int
 
     static constexpr char root[]{"/home/k/projects/cxc"};
     stdfs::path path{std::format("{}/tests/value.cx", root)};
-
-    Parser parser{};
-    parser.load(path);
-    Syntax o;
-    parser.next(o);
-    std::cout << o.value().value->identifier.value << std::endl;
+    std::cout << path << std::endl;
     return 0;
 }

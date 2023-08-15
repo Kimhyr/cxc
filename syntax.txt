@@ -1,80 +1,66 @@
-string:
-	"\"([^\\\n]|\\.|\\\n)*\""
+tagged-type ::= identifier':' type
 
-uinteger:
-	"[0-9]+"
+type ::= tuple-type
+       | enumerated-type
+       | union-type
+       | array-type
+       | function-type
+       | tagged-type
+       | packed-type
+       | pointer-type
 
-integer:
-	"(\+|\-)"uinteger
+pointer-type ::= '@' type
 
-floating:
-	integer'.'uinteger
+packed-type ::= type '...'
 
-expression:
-	string | uinteger | integer | floating
+enumerated-type ::= type '|' type
 
-identifier:
-	"[a-zA-Z_][0-9a-zA-Z_]*"
+union-type ::= type '+' type
 
-primitive-type:
-	'u8' | 'u16' | 'u32' | 'u64' |
-	'i8' | 'i16' | 'i32' | 'i64' |
-		   'f16' | 'f32' | 'f64'
+array-type ::= type '*' unsigned-integral-constant
 
-type:
-	primitive-type
+tuple-type ::= type [',' type]
 
-cast:
-	':' type
+function-type ::= tuple-type '-' type
 
-tagged-tuple:
-	'(' identifier cast (',' identifier cast )* ')'
+initializer ::= '{' expression* '}'
 
-function-type:
-	tagged-tuple '->' type
+type IdentifierToken = String;
 
-procedure-declaration:
-	identifier function-type
+type TokenType = Identifier: IdentifierToken -> 0
+               | LeftCurl -> '{'
+               | RightCurl -> '}'
+               | Function: (() -> ()) -> 1;
 
-value-declaration:
-	identifier cast
+type Function<...Args, ReturnType>
+    = (Args...) -> ReturnType;
 
-statement:
-	procedure-declaration
-	value-declaration
-	expression
-	statement ';'
+trait FunctionType<...InputTypes, ReturnType> {
+    type Input = 'InputTypes...;
+    type Return = 'ReturnType;
 
-structure Baz {
-	row: usize,
-	column: usize
+    trait evaluate: (Input...) -> Return;
 }
 
-procedure foo(bar: Baz) -> Baz {
-	return bar;
+type ParsingContext =
+    prior_type: TupleType
+              | ArrayType,
+    from: (TupleType: (numer: ));
+
+
+trait ExpressionType<TypeType> {
+    type Type = 'TypeType;
+
+    parse: (context: @ParsingContext) -> @Type;
 }
 
-procedure create(row: uint, column: uint)
-	-> type Baz = (
-		row: uint,
-		column: uint
-	)
-{
-	return Baz(
-		.row = row,
-		.column = column
-	);
-}
+module memory;
 
-procedure fib(n: uint) -> uint
-{
-	if n == 1 || n == 2 {
-		return n;
-	}
-	return fib(n - 1) + fib(n - 2);
-}
 
-value fib: (n: uint) -> uint {
-	(n == 1 || n == 2) => n,
-		fib(n - 1) + fib(n - 2)
-}
+type Location = line: u64, column: u64; 
+
+type Token = \type: TokenType, location: Location;
+
+let my_function: (fn: (int) -> bool) -> int;
+
+let my_value: int;
